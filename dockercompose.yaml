@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_CREATE_TOPICS: "video_frames:1:1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+
+  python_app:
+    build:
+      context: .
+    volumes:
+      - ./video.mp4:/app/video.mp4
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      VIDEO_PATH: /app/video.mp4
+      KAFKA_TOPIC: video_frames

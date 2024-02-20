@@ -1,9 +1,10 @@
 # multi-object-trackers
  TFG
 
-
-
-
+Better models:
+* YOLOv8x
+* YOLOv8l
+* YOLOv8n
 
 
 
